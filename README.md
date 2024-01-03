@@ -30,3 +30,18 @@ Welcome to the Quiz App! This simple Flutter application is designed to test you
 
    ```bash
    git clone https://github.com/aflah3100/Flutter-Quiz-App.git
+   cd Flutter-Quiz-App
+    ```
+
+2. **Install dependencies:**
+
+    ```bash
+    flutter pub get
+    ```
+
+3. **Run the app:**
+
+    ```bash
+    flutter run
+    ```
+
