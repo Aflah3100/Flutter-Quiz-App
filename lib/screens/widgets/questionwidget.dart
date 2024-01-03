@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quiz_app/db/functions/functions.dart';
 import 'package:quiz_app/db/model/questionmodel.dart';
 import 'package:quiz_app/main.dart';
+import 'package:quiz_app/screens/widgets/bottomsheetwidget.dart';
 
 // ignore: must_be_immutable
 class QuestionDisplay extends StatefulWidget {
@@ -12,19 +13,10 @@ class QuestionDisplay extends StatefulWidget {
 }
 
 class _QuestionDisplayState extends State<QuestionDisplay> {
-  int currentIndex=0;
-  
-
-  // @override
-  // void initState() {
-  //   currentIndex = 0;
-  //   data = questionLists[currentIndex];
-  //   super.initState();
-  // }
-
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-  QuestionModel data=questionLists[currentIndex];
+    QuestionModel data = questionLists[currentIndex];
     return Column(
       children: [
         Container(
@@ -72,10 +64,10 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
                   //True Button widget
                   InkWell(
                     onTap: () {
-                      if(data.answer){
+                      if (data.answer) {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         showTrueSnackBar(context);
-                      }else{
+                      } else {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         showFalseSnackBar(context);
                       }
@@ -97,11 +89,11 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
                   ),
                   //False Button Widget
                   InkWell(
-                    onTap: (){
-                      if(!data.answer){
+                    onTap: () {
+                      if (!data.answer) {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         notShowFalseSnackBar(context, data.other!);
-                      }else{
+                      } else {
                         ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         notShowTrueSnackbar(context);
                       }
@@ -123,9 +115,10 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
                   ),
                   //Next Question Button Widget
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       setState(() {
-                        currentIndex=(currentIndex+1)%questionLists.length;
+                        currentIndex =
+                            (currentIndex + 1) % questionLists.length;
                       });
                     },
                     child: Container(
@@ -150,7 +143,23 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
                     ),
                   )
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 35.0,
+              ),
+              //Add Question Button
+              ElevatedButton(
+                  onPressed: () {
+                    showAddQuestionBottomSheet(context);
+                  },
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(const Color.fromARGB(255, 29, 153, 122)),
+                  ),
+                  child: const Text(
+                    'Add Yours',
+                    style: TextStyle(fontSize: 16.0,color: Colors.black),
+                  ))
             ],
           ),
         )
@@ -159,7 +168,7 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
   }
 
   //Functions
-  void showTrueSnackBar(BuildContext context){
+  void showTrueSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       behavior: SnackBarBehavior.floating,
       duration: Duration(seconds: 3),
@@ -168,7 +177,8 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
       backgroundColor: Colors.green,
     ));
   }
-  void showFalseSnackBar(BuildContext context){
+
+  void showFalseSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       behavior: SnackBarBehavior.floating,
       duration: Duration(seconds: 3),
@@ -178,7 +188,7 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
     ));
   }
 
-  void notShowTrueSnackbar(BuildContext context){
+  void notShowTrueSnackbar(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       behavior: SnackBarBehavior.floating,
       duration: Duration(seconds: 3),
@@ -187,20 +197,28 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
       backgroundColor: Colors.red,
     ));
   }
-  
-  void notShowFalseSnackBar(BuildContext context,String info){
-    ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+
+  void notShowFalseSnackBar(BuildContext context, String info) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       behavior: SnackBarBehavior.floating,
       duration: const Duration(seconds: 5),
       padding: const EdgeInsets.all(12.0),
-      content: ListTile(title: const Text('Yes! You made it Correct'),
-      subtitle: Text(info,style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white)),),
+      content: ListTile(
+        title: const Text('Yes! You made it Correct'),
+        subtitle: Text(info,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.white)),
+      ),
       backgroundColor: Colors.green,
     ));
-
-
-
   }
 
-  }
+  //Bottom Sheet Function
 
+  void showAddQuestionBottomSheet(BuildContext context){
+    showModalBottomSheet(context: context, 
+    builder: (bottomSheetContext) => QuestionBottomSheet(bottomSheetContext: bottomSheetContext,),
+    useSafeArea: true,
+    );
+  }
+}
