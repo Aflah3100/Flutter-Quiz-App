@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/db/model/questionmodel.dart';
 import 'package:quiz_app/screens/homescreen.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:quiz_app/screens/widgets/bottomsheetwidget.dart';
 
 //Global Function
 double getScreenHeight(BuildContext ctx){
   return MediaQuery.of(ctx).size.height;
 }
 
-void main() {
+void main() async{
+  await Hive.initFlutter();
+  if(!Hive.isAdapterRegistered(QuestionModelAdapter().typeId)){
+    Hive.registerAdapter(QuestionModelAdapter());
+  }
   runApp(const MyApp());
 }
 
