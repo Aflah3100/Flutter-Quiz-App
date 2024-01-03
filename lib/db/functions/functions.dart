@@ -14,11 +14,19 @@ ValueNotifier<List<QuestionModel>> questionLists=ValueNotifier([
 ]);
 
 //Add Question to Database
-void addToDatabase({required String question,required String answer})async{
+void addToDatabase({required String question,required String answer,String? otherInfo})async{
   bool ans=(answer.toLowerCase()=='true')?true:false;
-  QuestionModel userQuestion=QuestionModel(question: question, answer: ans);
   Box<QuestionModel> questiondb=await Hive.openBox<QuestionModel>('question-db');
-  questiondb.add(userQuestion);
+  if(ans){
+    QuestionModel userQuestion=QuestionModel(question: question, answer: ans);
+    questiondb.add(userQuestion);
+  }else{
+    QuestionModel userQuestion=QuestionModel(question: question, answer: ans,other: otherInfo);
+    questiondb.add(userQuestion);
+  }
+  
+  
+  
 }
 
 //fetch all questions in the database
