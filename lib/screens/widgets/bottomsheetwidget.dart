@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/db/functions/functions.dart';
 
 // ignore: must_be_immutable
 class QuestionBottomSheet extends StatelessWidget {
   BuildContext bottomSheetContext;
   QuestionBottomSheet({super.key, required this.bottomSheetContext});
+  final _questionController = TextEditingController();
+  final _answerController = TextEditingController();
+  final _otherinfoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +17,7 @@ class QuestionBottomSheet extends StatelessWidget {
           children: [
             //Question TextField
             TextFormField(
+              controller: _questionController,
               decoration: InputDecoration(
                 labelText: 'Question',
                 hintText: 'Enter your Question',
@@ -24,9 +29,23 @@ class QuestionBottomSheet extends StatelessWidget {
               height: 25.0,
             ),
             TextFormField(
+              controller: _answerController,
               decoration: InputDecoration(
                 labelText: 'Answer',
                 hintText: 'Enter True or False',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.0)),
+              ),
+            ),
+            const SizedBox(
+              height: 30.0,
+            ),
+            //Other Information Text Field
+            TextFormField(
+              controller: _otherinfoController,
+              decoration: InputDecoration(
+                labelText: 'Extra Info',
+                hintText: 'Provide the correct information for false answers',
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14.0)),
               ),
@@ -38,7 +57,16 @@ class QuestionBottomSheet extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    addToDatabase(
+                        question: _questionController.text,
+                        answer: _answerController.text);
+                    fetchQuestions();
+                    displayAlertBox(context);
+                    _questionController.clear();
+                    _answerController.clear();
+                    _otherinfoController.clear();
+                  },
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.green)),
@@ -59,5 +87,20 @@ class QuestionBottomSheet extends StatelessWidget {
             )
           ],
         ));
+  }
+
+  //Alert Box Function
+  void displayAlertBox(BuildContext context) async {
+    await showDialog(
+        context: context,
+        builder: (alertBoxContext) {
+          return  AlertDialog(title: const Text('Success'), 
+          content: const Text('Question Added Succesfully'),
+          actions: [
+            TextButton(onPressed: (){
+              Navigator.of(alertBoxContext).pop();
+            }, child: const Text('Close'))
+          ],);
+        });
   }
 }

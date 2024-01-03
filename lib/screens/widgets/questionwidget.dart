@@ -16,7 +16,7 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-    QuestionModel data = questionLists[currentIndex];
+    QuestionModel data = questionLists.value[currentIndex];
     return Column(
       children: [
         Container(
@@ -118,7 +118,7 @@ class _QuestionDisplayState extends State<QuestionDisplay> {
                     onTap: () {
                       setState(() {
                         currentIndex =
-                            (currentIndex + 1) % questionLists.length;
+                            (currentIndex + 1) % questionLists.value.length;
                       });
                     },
                     child: Container(
