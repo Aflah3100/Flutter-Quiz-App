@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/main.dart';
-import 'package:quiz_app/screens/widgets/bottomcontainer.dart';
-import 'package:quiz_app/screens/widgets/question.dart';
+import 'package:quiz_app/screens/widgets/questionwidget.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -24,16 +23,15 @@ class ScreenHome extends StatelessWidget {
             width: double.infinity,
             height: getScreenHeight(context) * 0.28,
             margin: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(13.0)),
+            decoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(13.0)),
             child: Image.asset('assets/images/flag.png'),
           ),
           SizedBox(height: getScreenHeight(context) * 0.03),
           //Question Display Container
-          const QuestionDisplay(),
+           QuestionDisplay(),
           SizedBox(height: getScreenHeight(context) * 0.02),
-          //Bottom Widget
-          const BottomContainer()
+          
         ],
       )),
     );
