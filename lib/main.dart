@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/screens/homescreen.dart';
 
+//Global Function
+double getScreenHeight(BuildContext ctx){
+  return MediaQuery.of(ctx).size.height;
+}
+
 void main() {
   runApp(const MyApp());
 }
